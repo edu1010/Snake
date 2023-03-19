@@ -1,0 +1,3 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: The intermediate directory (C:\Users\edu10\Documents\GitHub\Snake\INTERMEDIATE\(Configuration)\) contains files shared from another project (LluviaDeLetras.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  SnakeLogic.cpp
+  LluviaDeLetras.vcxproj -> C:\Users\edu10\Documents\GitHub\Snake\BUILDS\Debug\Snake.exe
