@@ -152,12 +152,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Fruit.cpp" />
+    <ClCompile Include="source\PositionVector.cpp" />
     <ClCompile Include="source\FallingChar.cpp" />
     <ClCompile Include="source\LluviaDeLetras.cpp" />
     <ClCompile Include="source\LluviaDeLetrasDrawer.cpp" />
     <ClCompile Include="source\SnakeLogic.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Fruit.h" />
+    <ClInclude Include="source\PositionVector.h" />
     <ClInclude Include="source\FallingChar.h" />
     <ClInclude Include="source\LluviaDeLetrasDrawer.h" />
     <ClInclude Include="source\SnakeLogic.h" />

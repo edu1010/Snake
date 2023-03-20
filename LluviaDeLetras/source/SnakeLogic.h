@@ -6,7 +6,15 @@
 #include <vector>
 
 #include "LogicManager.h"
-#include <List>
+#include "PositionVector.h"
+#include "Fruit.h"
+enum Directions
+{
+	Right,
+	Left,
+	Up,
+	Down
+};
 class SnakeLogic:public LogicManager
 {
 	SnakeLogic();
@@ -24,8 +32,13 @@ public:
 	int   score = 0;
 	int   record = 0;
 	int   randomNumber=0;
+	int   randomPosX=0;
+	int   randomPosY=0;
 	char  randomChar=' ';
+	std::vector<Fruit*> fruits;
+	std::vector<PositionVector>* SnakePositions=nullptr;
 	LluviaDeLetrasDrawer* lluviaDeLetrasDrawer =nullptr;
+	Directions snakeDirection;
 	SnakeLogic(int height, int width);
 	~SnakeLogic();
 	
@@ -40,5 +53,8 @@ public:
 	void InputPlayer();
 	
 	void Restart();
+	void IncrementSnake();
+	void MoveSnake();
+
 };
 

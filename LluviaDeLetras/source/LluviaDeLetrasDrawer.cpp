@@ -155,10 +155,7 @@ void LluviaDeLetrasDrawer::DrawBoard()
 		drawManager->DrawAtPos(205, 2, i);
 	}
 	
-	for (size_t i = 1; i < width-1; i++)
-	{
-		drawManager->DrawAtPos('~', height-3, i);
-	}
+	
 
 	for (size_t i = 1; i < width-1; i++)
 	{
@@ -269,5 +266,22 @@ void LluviaDeLetrasDrawer::DrawCharInLineShield(int line, int indexOfLine, char 
 				}
 			}
 		}
+	}
+}
+
+void LluviaDeLetrasDrawer::DrawFruits(std::vector<Fruit*> fruits)
+{
+	for(Fruit* f : fruits)
+	{
+		drawManager->DrawAtPos(f->c, f->pos->getY(), f->pos->getX());
+		
+	}
+}
+
+void LluviaDeLetrasDrawer::DrawSnake(std::vector<PositionVector>* SnakePos)
+{
+	for (auto it = SnakePos->begin(); it != SnakePos->end(); ++it)
+	{
+		drawManager->DrawAtPos(219, it->getY(), it->getX());
 	}
 }

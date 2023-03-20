@@ -1,5 +1,7 @@
 #pragma once
 #include "ConsoleDrawer.h"
+#include <vector>
+#include "Fruit.h"
 class LluviaDeLetrasDrawer
 {
 	ConsoleDrawer* drawManager;
@@ -21,5 +23,6 @@ public:
 	void Explosion(int line, int indexOfLine);
 	
 	void DrawCharInLineShield(int line, int indexOfLine, char c);
+	void DrawFruits(std::vector<Fruit*> fruits);
+	void DrawSnake(std::vector<PositionVector>* SnakePos);
 };
-

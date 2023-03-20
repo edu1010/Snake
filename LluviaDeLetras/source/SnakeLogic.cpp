@@ -15,16 +15,24 @@ SnakeLogic::SnakeLogic(int height, int width) : height(height), width(width)
 	
 	gameOver = false;
 	heightToDie = height - 2;
-	
+	snakeDirection = Right;
 	score = 0;
 	record = 0;
 	randomNumber = 0;
 	randomChar = ' ';
+	//fruits = new std::vector<Fruit*>;
+	SnakePositions = new std::vector<PositionVector>;
+	IncrementSnake();
+	
 }
 
 SnakeLogic::~SnakeLogic()
 {
-	//delete lluviaDeLetrasDrawer;
+	for (auto f = fruits.begin(); f != fruits.end(); ++f) {
+		delete* f;
+	}
+	//delete fruits;
+	delete SnakePositions;
 }
 
 
@@ -43,6 +51,7 @@ void SnakeLogic::Start(ConsoleDrawer* drawer, PlayerInput* inputManager)
 		randomChar = 'a' + randomNumber;
 		//AddFallingChar(i-1,i+1, randomChar);
 	}
+	SpawnFruit();
 }
 
 void SnakeLogic::Update(float deltaTime)
@@ -55,13 +64,15 @@ void SnakeLogic::Update(float deltaTime)
 		lluviaDeLetrasDrawer->DrawBoard();
 		lluviaDeLetrasDrawer->DrawScore(score);
 		lluviaDeLetrasDrawer->DrawRecord(record);
-	
-		
+		lluviaDeLetrasDrawer->DrawFruits(fruits);
+		lluviaDeLetrasDrawer->DrawSnake(SnakePositions);
+		MoveSnake();
 	
 	
 
 		if (elapsedTime > timeToSpawn)
 		{
+			SpawnFruit();
 			//SpawnChar();
 			elapsedTime = 0;
 			indice++;	
@@ -108,6 +119,26 @@ void SnakeLogic::ReviveAll()
 
 void SnakeLogic::SpawnFruit()
 {
+	randomPosY = std::rand() % height-1;
+	if(randomPosY<2)
+	{
+		randomPosY = 4;
+	}
+	if(randomPosY==height-1)
+	{
+		randomPosY = height-2;
+	}
+	randomPosX = std::rand() % width-1;
+	if (randomPosX == 0)
+	{
+		randomPosX = 2;
+	}
+	if (randomPosX == width-1)
+	{
+		randomPosX = width-2;
+	}
+	Fruit* fruit = new Fruit(randomPosX, randomPosY);
+	fruits.push_back(fruit);
 }
 
 
@@ -116,25 +147,17 @@ void SnakeLogic::InputPlayer()
 	if(input->ArrowLeftIsPress())
 	{
 		//lluviaDeLetrasDrawer->ChangeVerticalLine(4, "left");
-		lluviaDeLetrasDrawer->Debug('l');
-	}
-	else if(input->ArrowRightIsPress())
-	{}
-	else if(input->ArrowUpIsPress())
-	{}
-	else if(input->ArrowDownIsPress())
-	{}
-	for (size_t i = 0; i < width - 2; i++)
-	{
-		if (input->theGivenCharIsPress(' '))
-			{
-				//fallingCharList[i].TakeDamage();
-			
-			}
-			
 		
 	}
-
+	else if(input->ArrowRightIsPress())
+	{
+	}
+	else if(input->ArrowUpIsPress())
+	{
+	}
+	else if(input->ArrowDownIsPress())
+	{
+	}
 }
 
 
@@ -147,4 +170,58 @@ void SnakeLogic::Restart()
 	score = 0;
 	elapsedTime = 0;
 	ReviveAll();
+}
+
+void SnakeLogic::IncrementSnake()
+{
+	if(SnakePositions->size() == 0)
+	{
+		PositionVector pos(width / 2 - 1, height / 2-1);
+		SnakePositions->push_back(pos);
+
+		pos = PositionVector (width / 2 -1, height / 2);
+		SnakePositions->push_back(pos);
+		
+		pos = PositionVector(width / 2, height / 2);
+		SnakePositions->push_back(pos);
+	}
+}
+
+void SnakeLogic::MoveSnake()
+{
+	switch (snakeDirection)
+	{
+	case Right:
+	{
+		
+		PositionVector aux = SnakePositions->back();
+		PositionVector actualPos;
+		//PositionVector aux = ;// (std::prev(SnakePositions->end())->getX(), std::prev(SnakePositions->end())->getY());
+		if (!(aux.getX() > width))
+		{
+			std::prev(SnakePositions->end())->setX(std::prev(SnakePositions->end())->getX() + 1);
+			for (auto it = std::prev( std::prev(SnakePositions->end())); it != SnakePositions->begin(); --it)
+			{
+				actualPos.setX(it->getX()); 
+				actualPos.setY(it->getY());
+				
+				it->setY(aux.getY());
+				it->setX(aux.getX());
+				aux = actualPos;
+			}
+			SnakePositions->begin()->setY(aux.getY());
+			SnakePositions->begin()->setX(aux.getX());
+		}
+	}
+
+		break;
+	case Left:
+		break;
+	case Up:
+		break;
+	case Down:
+		break;
+	default:
+		break;
+	}
 }
