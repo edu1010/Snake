@@ -1,1 +1,7 @@
-﻿  GameEngine.vcxproj -> C:\Users\adn\Documents\GitHub\Snake\lib\BuildLib\Debug\GameEngine.lib
+﻿  LogicManager.cpp
+  ConsoleDrawer.cpp
+  GameEngine.cpp
+  PlayerInput.cpp
+  TimeManager.cpp
+  Generando código...
+  GameEngine.vcxproj -> C:\Users\adn\Documents\GitHub\Snake\lib\BuildLib\Debug\GameEngine.lib

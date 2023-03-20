@@ -56,7 +56,6 @@ void SnakeLogic::Start(ConsoleDrawer* drawer, PlayerInput* inputManager)
 
 void SnakeLogic::Update(float deltaTime)
 {
-	//std::cout << "LOGIC - Update" << std::endl;
 	elapsedTime += deltaTime;
 	
 	if (!gameOver) 
@@ -70,15 +69,11 @@ void SnakeLogic::Update(float deltaTime)
 		MoveSnake();
 		ChekColisions();
 	
-	
-
 		if (elapsedTime > timeToSpawn)
 		{
 			//SpawnFruit();
-			//SpawnChar();
 			elapsedTime = 0;
 			//indice++;	
-		
 		}
 	}
 	else 
@@ -123,31 +118,42 @@ void SnakeLogic::ReviveAll()
 	{
 		randomNumber = std::rand() % 26;
 		randomChar = 'a' + randomNumber;
-		//fallingCharList[i].Revive(randomChar);
-		//AddFallingChar(i - 1, i + 1, randomChar);
 	}
 }
 
 void SnakeLogic::SpawnFruit()
 {
-	randomPosY = std::rand() % height-1;
-	if(randomPosY<2)
+	bool repeat = false;
+	do
 	{
-		randomPosY = 4;
-	}
-	if(randomPosY==height-1)
-	{
-		randomPosY = height-2;
-	}
-	randomPosX = std::rand() % width-1;
-	if (randomPosX == 0)
-	{
-		randomPosX = 2;
-	}
-	if (randomPosX == width-1)
-	{
-		randomPosX = width-2;
-	}
+		repeat = false;
+		randomPosY = std::rand() % height-1;
+		if(randomPosY<2)
+		{
+			randomPosY = 4;
+		}
+		if(randomPosY>height-4)
+		{
+			randomPosY = height-4;
+		}
+		randomPosX = std::rand() % width-1;
+		if (randomPosX == 0)
+		{
+			randomPosX = 2;
+		}
+		if (randomPosX == width-1)
+		{
+			randomPosX = width-2;
+		}
+		for (auto var : *SnakePositions) 
+		{
+			if (randomPosX == var.getX() && randomPosY == var.getY())
+			{
+				repeat = true;
+			}
+		}
+	} while (repeat);
+
 	Fruit* fruit = new Fruit(randomPosX, randomPosY);
 	fruits.push_back(fruit);
 }
@@ -157,9 +163,7 @@ void SnakeLogic::InputPlayer()
 {
 	if(input->ArrowLeftIsPress())
 	{
-		//lluviaDeLetrasDrawer->ChangeVerticalLine(4, "left");
 		snakeDirection = Left;
-		
 	}
 	else if(input->ArrowRightIsPress())
 	{
@@ -222,7 +226,6 @@ void SnakeLogic::MoveSnake()
 	switch (snakeDirection)
 	{
 	case Right:	
-		//PositionVector aux = ;// (std::prev(SnakePositions->end())->getX(), std::prev(SnakePositions->end())->getY());
 		if (!(aux.getX() > width-2))
 		{
 			std::prev(SnakePositions->end())->setX(std::prev(SnakePositions->end())->getX() + 1);
