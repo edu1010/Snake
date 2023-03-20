@@ -1,7 +1,1 @@
-﻿  LogicManager.cpp
-  ConsoleDrawer.cpp
-  GameEngine.cpp
-  PlayerInput.cpp
-  TimeManager.cpp
-  Generating Code...
-  GameEngine.vcxproj -> C:\Users\edu10\Documents\GitHub\Snake\lib\BuildLib\Debug\GameEngine.lib
+﻿  GameEngine.vcxproj -> C:\Users\adn\Documents\GitHub\Snake\lib\BuildLib\Debug\GameEngine.lib

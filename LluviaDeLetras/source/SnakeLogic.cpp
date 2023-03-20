@@ -147,16 +147,20 @@ void SnakeLogic::InputPlayer()
 	if(input->ArrowLeftIsPress())
 	{
 		//lluviaDeLetrasDrawer->ChangeVerticalLine(4, "left");
+		snakeDirection = Left;
 		
 	}
 	else if(input->ArrowRightIsPress())
 	{
+		snakeDirection = Right;
 	}
 	else if(input->ArrowUpIsPress())
 	{
+		snakeDirection = Up;
 	}
 	else if(input->ArrowDownIsPress())
 	{
+		snakeDirection = Down;
 	}
 }
 
@@ -189,39 +193,49 @@ void SnakeLogic::IncrementSnake()
 
 void SnakeLogic::MoveSnake()
 {
+
+	PositionVector aux = SnakePositions->back();
+	PositionVector actualPos;
 	switch (snakeDirection)
 	{
-	case Right:
-	{
-		
-		PositionVector aux = SnakePositions->back();
-		PositionVector actualPos;
+	case Right:	
 		//PositionVector aux = ;// (std::prev(SnakePositions->end())->getX(), std::prev(SnakePositions->end())->getY());
 		if (!(aux.getX() > width))
 		{
 			std::prev(SnakePositions->end())->setX(std::prev(SnakePositions->end())->getX() + 1);
-			for (auto it = std::prev( std::prev(SnakePositions->end())); it != SnakePositions->begin(); --it)
-			{
-				actualPos.setX(it->getX()); 
-				actualPos.setY(it->getY());
-				
-				it->setY(aux.getY());
-				it->setX(aux.getX());
-				aux = actualPos;
-			}
-			SnakePositions->begin()->setY(aux.getY());
-			SnakePositions->begin()->setX(aux.getX());
 		}
-	}
-
+	
 		break;
 	case Left:
+		if (!(aux.getX() < 0))
+		{
+			std::prev(SnakePositions->end())->setX(std::prev(SnakePositions->end())->getX() -1);
+		}
 		break;
 	case Up:
+		if (!(aux.getY() > height))
+		{
+			std::prev(SnakePositions->end())->setY(std::prev(SnakePositions->end())->getY()-1);
+		}
 		break;
 	case Down:
+		if (!(aux.getY() < 0))
+		{
+			std::prev(SnakePositions->end())->setY(std::prev(SnakePositions->end())->getY()+1);
+		}
 		break;
 	default:
 		break;
 	}
+	for (auto it = std::prev(std::prev(SnakePositions->end())); it != SnakePositions->begin(); --it)
+	{
+		actualPos.setX(it->getX());
+		actualPos.setY(it->getY());
+
+		it->setY(aux.getY());
+		it->setX(aux.getX());
+		aux = actualPos;
+	}
+	SnakePositions->begin()->setY(aux.getY());
+	SnakePositions->begin()->setX(aux.getX());
 }
