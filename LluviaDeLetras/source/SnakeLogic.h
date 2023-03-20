@@ -54,7 +54,9 @@ public:
 	
 	void Restart();
 	void IncrementSnake();
+	void IncrementSnake(PositionVector pos);
 	void MoveSnake();
+	void ChekColisions();
 
 };
 

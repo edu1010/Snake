@@ -61,12 +61,14 @@ void SnakeLogic::Update(float deltaTime)
 	
 	if (!gameOver) 
 	{
+		
 		lluviaDeLetrasDrawer->DrawBoard();
 		lluviaDeLetrasDrawer->DrawScore(score);
 		lluviaDeLetrasDrawer->DrawRecord(record);
 		lluviaDeLetrasDrawer->DrawFruits(fruits);
 		lluviaDeLetrasDrawer->DrawSnake(SnakePositions);
 		MoveSnake();
+		ChekColisions();
 	
 	
 
@@ -190,6 +192,10 @@ void SnakeLogic::IncrementSnake()
 		SnakePositions->push_back(pos);
 	}
 }
+void SnakeLogic::IncrementSnake(PositionVector pos)
+{
+		SnakePositions->push_back(pos);
+}
 
 void SnakeLogic::MoveSnake()
 {
@@ -238,4 +244,20 @@ void SnakeLogic::MoveSnake()
 	}
 	SnakePositions->begin()->setY(aux.getY());
 	SnakePositions->begin()->setX(aux.getX());
+}
+
+void SnakeLogic::ChekColisions()
+{
+	int i = 0;
+	for(auto fp: fruits)
+	{
+		if(fp->pos->getX() == std::prev(SnakePositions->end())->getX() &&
+			fp->pos->getY() == std::prev(SnakePositions->end())->getY())
+		{
+			IncrementSnake(*fp->pos);
+			delete fp;
+			fruits.erase(fruits.begin()+i);
+		}
+		i++;
+	}
 }
