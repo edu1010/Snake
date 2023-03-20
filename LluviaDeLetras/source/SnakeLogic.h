@@ -46,7 +46,7 @@ public:
 	void Update(float deltaTime) override;
 	void FastUpdate() override;
 
-
+	void IncremetScore();
 	void ReviveAll();
 	void SpawnFruit();
 

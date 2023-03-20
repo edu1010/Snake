@@ -74,10 +74,10 @@ void SnakeLogic::Update(float deltaTime)
 
 		if (elapsedTime > timeToSpawn)
 		{
-			SpawnFruit();
+			//SpawnFruit();
 			//SpawnChar();
 			elapsedTime = 0;
-			indice++;	
+			//indice++;	
 		
 		}
 	}
@@ -103,6 +103,15 @@ void SnakeLogic::FastUpdate()
 			Restart();
 		}
 		
+	}
+}
+
+void SnakeLogic::IncremetScore()
+{
+	score++;
+	if(record<score)
+	{
+		record = score;
 	}
 }
 
@@ -175,7 +184,15 @@ void SnakeLogic::Restart()
 	gameOver = false;
 	score = 0;
 	elapsedTime = 0;
-	ReviveAll();
+	//ReviveAll();
+	for (auto f = fruits.begin(); f != fruits.end(); ++f) {
+		delete* f;
+	}
+	fruits.clear();
+	snakeDirection = Right;
+	SnakePositions->clear();
+	IncrementSnake();
+	SpawnFruit();
 }
 
 void SnakeLogic::IncrementSnake()
@@ -206,28 +223,43 @@ void SnakeLogic::MoveSnake()
 	{
 	case Right:	
 		//PositionVector aux = ;// (std::prev(SnakePositions->end())->getX(), std::prev(SnakePositions->end())->getY());
-		if (!(aux.getX() > width))
+		if (!(aux.getX() > width-2))
 		{
 			std::prev(SnakePositions->end())->setX(std::prev(SnakePositions->end())->getX() + 1);
+		}else
+		{
+			gameOver = true;
 		}
 	
 		break;
 	case Left:
-		if (!(aux.getX() < 0))
+		if (!(aux.getX() < 2))
 		{
 			std::prev(SnakePositions->end())->setX(std::prev(SnakePositions->end())->getX() -1);
 		}
+		else
+		{
+			gameOver = true;
+		}
 		break;
 	case Up:
-		if (!(aux.getY() > height))
+		if (!(aux.getY() < 4))
 		{
 			std::prev(SnakePositions->end())->setY(std::prev(SnakePositions->end())->getY()-1);
 		}
+		else
+		{
+			gameOver = true;
+		}
 		break;
 	case Down:
-		if (!(aux.getY() < 0))
+		if  (!(aux.getY() > height-3))
 		{
 			std::prev(SnakePositions->end())->setY(std::prev(SnakePositions->end())->getY()+1);
+		}
+		else
+		{
+			gameOver = true;
 		}
 		break;
 	default:
@@ -257,6 +289,9 @@ void SnakeLogic::ChekColisions()
 			IncrementSnake(*fp->pos);
 			delete fp;
 			fruits.erase(fruits.begin()+i);
+			SpawnFruit();
+			IncremetScore();
+			
 		}
 		i++;
 	}
